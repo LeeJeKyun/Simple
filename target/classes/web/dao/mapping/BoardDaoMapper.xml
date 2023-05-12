@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.BoardDao">
+	
+	<select id="selectCntAll" resultType="int" parameterType="String" >
+		SELECT count(*) FROM board
+		WHERE title LIKE '%${keyword}%'
+	</select>
+	
+	<select id="selectAll" resultType="hashmap" parameterType="util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, S.* FROM ( SELECT
+				boardno, title, userid, content, hit, write_date 
+ 				, (SELECT COUNT(*) FROM recommend R WHERE R.boardno=B.boardno) AS recommend
+			FROM board B WHERE title LIKE '%${search}%'
+			ORDER BY boardno DESC ) S
+ 		)Board
+		 WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="selectBoardByBoardno" resultType="web.dto.Board" parameterType="int">
+		SELECT * FROM board
+		WHERE boardno = #{boardno}
+	</select>
+	
+	<select id="selectBoardFileByBoardno" resultType="web.dto.BoardFile" parameterType="web.dto.Board">
+		SELECT * FROM boardfile
+		WHERE boardno = #{boardno}
+		ORDER BY fileno DESC
+	</select>
+	
+</mapper>
