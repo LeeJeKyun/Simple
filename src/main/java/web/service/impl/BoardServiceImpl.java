@@ -47,6 +47,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board getBoard(int boardno) {
+		
+		boardDao.updateHit(boardno);
 
 		return boardDao.selectBoardByBoardno(boardno);
 	}

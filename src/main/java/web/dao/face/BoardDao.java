@@ -58,5 +58,12 @@ public interface BoardDao {
 	 */
 	public int selectRecommendCnt(Board board);
 
+	/**
+	 * 현재 조회하는 게시글의 조회수를 +1한다.
+	 * 
+	 * @param boardno
+	 */
+	public void updateHit(int boardno);
+
 	
 }
