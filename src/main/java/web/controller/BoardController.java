@@ -3,6 +3,8 @@ package web.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,30 +54,38 @@ public class BoardController {
 				
 			@RequestParam(value="boardno") int boardno
 			, Model model
+			, HttpSession session
 			
 			) {
 		
 		logger.info("/board/view [GET]");
-		logger.info("/board/view : boardno : " + boardno);
+		logger.info("/board/view : boardno : {}", boardno);
 		
 		Board board = boardService.getBoard(boardno);
-		logger.info("/board/view - board : " + board);
+		logger.info("/board/view - board : {}", board);
 		
 		BoardFile boardFile = boardService.getBoardFile(board);
-		logger.info("/board/view - boardfile : " + boardFile);
-//		boolean isRecommended = boardService.isRecommended(board);
-//		int recommendCnt = boardService.recommendCnt(board);
-//		List<Comment> commentList = boardService.commentList(board);
+		logger.info("/board/view - boardfile : {}", boardFile);
 		
-//		System.out.println("BoardViewController - doGet : " + commentList);
-		
-//		model.addAttribute("commentList", commentList);
 		model.addAttribute("board", board);
-//		model.addAttribute("boardFile", boardFile);
-//		model.addAttribute("recommended", isRecommended);
-//		model.addAttribute("recommendCnt", recommendCnt);
-//		System.out.println("BoardViewController doGet() boardFile : " + boardFile);
-
+		//현재 로그인 중인 유저아이디로 변환. 이전까지는 게시글 작성자 userid
+		board.setUserid((String)session.getAttribute("userid"));
+		boolean isRecommended = boardService.isRecommended(board);
+		logger.info("/board/view - recommended : {}", isRecommended);
+		
+		//추천수 조회하여 반환
+		int recommendCnt = boardService.recommendCnt(board);
+		logger.info("/board/view - recommendCnt : {}" , recommendCnt);
+		
+		
+		List<Comment> commentList = boardService.commentList(board);
+		logger.info("/board/view - commentList : {}", commentList);
+		
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("boardFile", boardFile);
+		model.addAttribute("recommended", isRecommended);
+		model.addAttribute("recommendCnt", recommendCnt);
+		
 		
 		return null;
 		

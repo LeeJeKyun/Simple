@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.CommentDao" >
+
+<select id="selectCommentByBoardno" resultType="web.dto.Comment" parameterType="web.dto.Board">
+	SELECT * FROM commenttb
+	WHERE boardno = #{boardno}
+	ORDER BY commentno DESC
+</select>
+
+</mapper>

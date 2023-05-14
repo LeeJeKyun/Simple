@@ -33,4 +33,14 @@
 		ORDER BY fileno DESC
 	</select>
 	
+	<select id="selectRecommend" resultType="int" parameterType="web.dto.Board">
+		SELECT count(*) FROM recommend
+		WHERE userid = '${userid}' AND boardno = #{boardno}
+	</select>
+	
+	<select id="selectRecommendCnt" resultType="int" parameterType="web.dto.Board">
+		SELECT count(*) FROM recommend
+		WHERE boardno = #{boardno}
+	</select>
+	
 </mapper>

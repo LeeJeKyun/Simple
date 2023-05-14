@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import util.Paging;
 import web.dto.Board;
 import web.dto.BoardFile;
+import web.dto.Comment;
 
 @Service
 public interface BoardService {
@@ -43,6 +44,30 @@ public interface BoardService {
 	 * @return
 	 */
 	public BoardFile getBoardFile(Board board);
+
+	/**
+	 * 현재 로그인한 유저에게 추천을 받았었는지 확인하는 메소드
+	 * 
+	 * @param board - 로그인멤버
+	 * @return 추천여부
+	 */
+	public boolean isRecommended(Board board);
+
+	/**
+	 * 게시글의 전체 추천수를 조회하는 메소드
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public int recommendCnt(Board board);
+
+	/**
+	 * 현재 게시글의 전체 댓글을 조회하여 반환하는 메소드
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public List<Comment> commentList(Board board);
 	
 	
 	
