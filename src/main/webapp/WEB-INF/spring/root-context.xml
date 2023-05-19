@@ -19,6 +19,8 @@
 		<!-- 스프링 빈으로 등록된 dataSource를 이용한 DB접속정보 설정 -->
 		<property name="dataSource" ref="dataSource" />
 		
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
+		
 		<property name="mapperLocations">
 			<array>
 				

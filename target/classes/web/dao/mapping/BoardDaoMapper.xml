@@ -49,4 +49,22 @@
 		WHERE boardno = #{boardno}
 	</update>
 	
+	<select id="selectNextBoardSeq" resultType="int">
+		SELECT board_seq.nextval FROM dual
+	</select>
+	
+	<insert id="insertBoard" parameterType="web.dto.Board">
+		INSERT INTO board (boardno, title, userid, content, hit, write_date)
+		VALUES (#{boardno}, #{title}, #{userid}, #{content}, 0, sysdate)
+	</insert>
+	
+	<select id="selectNextBoardFileSeq" resultType="int">
+		SELECT boardfile_seq.nextval FROM dual
+	</select>
+	
+	<insert id="insertBoardFile" parameterType="web.dto.BoardFile">
+		INSERT INTO boardfile (fileno, boardno, originname, storedname, filesize, write_date)
+		VALUES ( #{fileno}, #{boardno}, #{originname}, #{storedname}, #{filesize}, sysdate )
+	</insert>
+	
 </mapper>

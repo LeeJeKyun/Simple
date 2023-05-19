@@ -65,5 +65,33 @@ public interface BoardDao {
 	 */
 	public void updateHit(int boardno);
 
+	/**
+	 * board테이블에 데이터를 삽입한다.
+	 * 
+	 * @param board
+	 */
+	public void insertBoard(Board board);
+
+	/**
+	 * 다음 boardno을 가져온다.
+	 * 
+	 * @return
+	 */
+	public int selectNextBoardSeq();
+
+	/**
+	 * 다음 Fileno을 가져온다.
+	 * 
+	 * @return
+	 */
+	public int selectNextBoardFileSeq();
+
+	/**
+	 * boardFile테이블에 데이터를 삽입한다
+	 * 
+	 * @param boardFile
+	 */
+	public void insertBoardFile(BoardFile boardFile);
+
 	
 }

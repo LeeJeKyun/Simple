@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import util.Paging;
 import web.dto.Board;
@@ -68,6 +69,14 @@ public interface BoardService {
 	 * @return
 	 */
 	public List<Comment> commentList(Board board);
+
+	/**
+	 * 게시글을 작성하는 메소드
+	 * 
+	 * @param board
+	 * @param upfile
+	 */
+	public void write(Board board, MultipartFile upfile);
 	
 	
 	

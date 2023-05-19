@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import util.Paging;
 import web.dto.Board;
@@ -35,16 +37,16 @@ public class BoardController {
 			, Model model
 			
 			) {
-		logger.info("/board/list [GET]");
+//		logger.info("/board/list [GET]");
 		
 		Paging paging = boardService.getPaging(curPage, search);
 		
-		logger.info("/board/list paging:" + paging);
+//		logger.info("/board/list paging:" + paging);
 		
 		List<Map<String, Object>> list = boardService.getList(paging);
 		
-		logger.info("/board/list list: " + list.get(0) );
-		logger.info("/board/list list: " + list.get(0).get("BOARDNO"));
+//		logger.info("/board/list list: " + list.get(0) );
+//		logger.info("/board/list list: " + list.get(0).get("BOARDNO"));
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
 	}
@@ -88,6 +90,30 @@ public class BoardController {
 		
 		
 		return null;
+		
+	}
+	
+	@GetMapping("/write")
+	public void write() {
+		
+	}
+	
+	@PostMapping("/write")
+	public String writeProc(
+			
+			Board board
+			, MultipartFile upfile
+			, HttpSession session
+			
+			) {
+		
+		logger.info("board {}", board);
+		logger.info("upfile {}", upfile);
+		board.setUserid((String)session.getAttribute("userid"));
+		
+		boardService.write(board, upfile);
+		
+		return "redirect: /board/list";
 		
 	}
 	

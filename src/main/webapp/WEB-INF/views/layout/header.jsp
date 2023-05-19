@@ -39,5 +39,5 @@
 <body>
 
 <div id="header">
-<h1><a class="text-info" href="/">LJK</a></h1>
+<h1><a class="text-info" href="/main">LJK</a></h1>
 </div>
