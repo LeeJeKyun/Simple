@@ -85,6 +85,13 @@ public interface BoardService {
 	 */
 	public BoardFile getDownloadFile(int fileno);
 
+	/**
+	 * 
+	 * 
+	 * @param boardno
+	 */
+	public Board getBoardForUp(int boardno);
+
 	
 	
 	

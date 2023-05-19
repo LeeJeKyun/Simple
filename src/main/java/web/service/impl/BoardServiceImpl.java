@@ -148,6 +148,11 @@ public class BoardServiceImpl implements BoardService {
 	public BoardFile getDownloadFile(int fileno) {
 		return boardDao.selectBoardFileByFileno(fileno);
 	}
+
+	@Override
+	public Board getBoardForUp(int boardno) {
+		return boardDao.selectBoardByBoardno(boardno);
+	}
 	
 	
 	

@@ -32,7 +32,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public void BoardList(
 			
-			@RequestParam(value = "curPage", defaultValue = "1") int curPage 
+			@RequestParam(value="curPage", defaultValue = "1") int curPage
 			, @RequestParam(value = "search", defaultValue = "") String search
 			, Model model
 			
@@ -133,6 +133,18 @@ public class BoardController {
 		model.addAttribute("downFile", downFile);
 		
 		return "down";
+	}
+	
+	@GetMapping("/update")
+	public void update(int boardno, Model model) {
+//		logger.info("{}", boardno);
+		Board upBoard = boardService.getBoardForUp(boardno);
+//		logger.info("{}", upBoard);
+		List<BoardFile> upBoardFile = boardService.getBoardFile(upBoard);
+		
+		model.addAttribute("board", upBoard);
+		model.addAttribute("upBoardFile", upBoardFile);
+		
 	}
 	
 }
