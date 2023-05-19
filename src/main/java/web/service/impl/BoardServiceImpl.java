@@ -61,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardFile getBoardFile(Board board) {
+	public List<BoardFile> getBoardFile(Board board) {
 		return boardDao.selectBoardFileByBoardno(board);
 	}
 
@@ -87,15 +87,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void write(Board board, MultipartFile upfile) {
+	public void write(Board board, List<MultipartFile> upfile) {
 
 		board.setBoardno(boardDao.selectNextBoardSeq());
 		logger.info("{}", board);
 		boardDao.insertBoard(board);
 		
-		if( upfile.getSize() <= 0) {
-			logger.info("파일의 크기가 0이다, 글만 처리");
-			
+		if(upfile == null) {
 			return;
 		}
 		
@@ -105,33 +103,50 @@ public class BoardServiceImpl implements BoardService {
 		//폴더가 없는 경우 생성
 		storedFolder.mkdir();
 		
-		File dest = null;
-		String storedName = null;
-		
-		do{
-			storedName = UUID.randomUUID().toString().split("-")[0];
+		for(int i=0; i<upfile.size(); i++) {
+			MultipartFile uploadFile = upfile.get(i);
+			if( uploadFile.getSize() <= 0) {
+				logger.info("파일의 크기가 0이다, 글만 처리");
+				
+				return;
+			}
 			
-			dest = new File(storedFolder, storedName);
 			
-		} while( dest.exists() );
-		
-		try {
-			upfile.transferTo(dest);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			File dest = null;
+			String storedName = null;
+			
+			do{
+				storedName = UUID.randomUUID().toString().split("-")[0];
+				
+				dest = new File(storedFolder, storedName);
+				
+			} while( dest.exists() );
+			
+			try {
+				uploadFile.transferTo(dest);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			BoardFile boardFile = new BoardFile();
+			boardFile.setBoardno(board.getBoardno());
+			boardFile.setFileno(boardDao.selectNextBoardFileSeq());
+			boardFile.setFilesize(uploadFile.getSize());
+			boardFile.setOriginname(uploadFile.getOriginalFilename());
+			boardFile.setStoredname(storedName);
+			
+			logger.info("boardService - boardFile : {}", boardFile);
+			
+			boardDao.insertBoardFile(boardFile);
 		}
 		
-		BoardFile boardFile = new BoardFile();
-		boardFile.setBoardno(board.getBoardno());
-		boardFile.setFileno(boardDao.selectNextBoardFileSeq());
-		boardFile.setFilesize(upfile.getSize());
-		boardFile.setOriginname(upfile.getOriginalFilename());
-		boardFile.setStoredname(storedName);
-		
-		boardDao.insertBoardFile(boardFile);
-		
+	}
+
+	@Override
+	public BoardFile getDownloadFile(int fileno) {
+		return boardDao.selectBoardFileByFileno(fileno);
 	}
 	
 	

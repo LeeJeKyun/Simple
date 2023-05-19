@@ -44,7 +44,7 @@ public interface BoardService {
 	 * @param board
 	 * @return
 	 */
-	public BoardFile getBoardFile(Board board);
+	public List<BoardFile> getBoardFile(Board board);
 
 	/**
 	 * 현재 로그인한 유저에게 추천을 받았었는지 확인하는 메소드
@@ -76,7 +76,15 @@ public interface BoardService {
 	 * @param board
 	 * @param upfile
 	 */
-	public void write(Board board, MultipartFile upfile);
+	public void write(Board board, List<MultipartFile> upfile);
+
+	/**
+	 * fileno을 기준으로 파일정보를 반환하는 메소드
+	 * 
+	 * @param fileno
+	 */
+	public BoardFile getDownloadFile(int fileno);
+
 	
 	
 	

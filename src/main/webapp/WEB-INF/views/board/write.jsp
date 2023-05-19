@@ -46,7 +46,7 @@ textarea {
 		<td colspan="2"><textarea name="content"></textarea></td>
 	</tr>
 	<tr>
-		<td colspan="2" ><input type="file" name="upfile"></td>
+		<td colspan="2" ><input type="file" name="upfile" multiple="multiple"></td>
 	</tr>
 </table>
 <br>

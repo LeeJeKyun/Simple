@@ -40,7 +40,7 @@ public interface BoardDao {
 	 * @param board
 	 * @return
 	 */
-	public BoardFile selectBoardFileByBoardno(Board board);
+	public List<BoardFile> selectBoardFileByBoardno(Board board);
 
 	/**
 	 * 현재 로그인한 멤버의 아이디와 현재 조회한 게시글의 번호로 추천된 내역이 있는지 확인하여 반환하는 메소드
@@ -92,6 +92,14 @@ public interface BoardDao {
 	 * @param boardFile
 	 */
 	public void insertBoardFile(BoardFile boardFile);
+
+	/**
+	 * fileno을 기준으로 boardfile의 행을 조회, 반환한다
+	 * 
+	 * @param fileno
+	 * @return
+	 */
+	public BoardFile selectBoardFileByFileno(int fileno);
 
 	
 }

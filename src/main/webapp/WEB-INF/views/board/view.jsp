@@ -211,12 +211,13 @@ td {
 <tr>
 	<td colspan="4" id="content"><div style="width: 890px; height: 600px;">${board.content }</div></td>
 </tr>
-<tr>
-	<td colspan="4" style="text-align: center;">
-		<a href="../upload/${boardFile.storedname }" download="${boardFile.originname }" >${boardFile.originname }</a>
-	</td> 
-</tr>
-
+<c:forEach items="${boardFile }" var="file">
+	<tr>
+		<td colspan="4" style="text-align: center;">
+			<a href="./download?fileno=${file.fileno }">${file.originname }</a>
+		</td> 
+	</tr>
+</c:forEach>
 <tr>
 	<td colspan="2" id="buttons">
 		<a href="<%=request.getContextPath()%>/board/list"><button type="button">목록</button></a>

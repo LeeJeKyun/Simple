@@ -67,4 +67,9 @@
 		VALUES ( #{fileno}, #{boardno}, #{originname}, #{storedname}, #{filesize}, sysdate )
 	</insert>
 	
+	<select id="selectBoardFileByFileno" parameterType="int" resultType="web.dto.BoardFile">
+		SELECT fileno, boardno, originname, storedname, filesize, write_date as writedate FROM boardfile
+		WHERE fileno = #{fileno}
+	</select>
+	
 </mapper>

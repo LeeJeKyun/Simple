@@ -66,13 +66,14 @@ public class BoardController {
 		Board board = boardService.getBoard(boardno);
 		logger.info("/board/view - board : {}", board);
 		
-		BoardFile boardFile = boardService.getBoardFile(board);
+		List<BoardFile> boardFile = boardService.getBoardFile(board);
 		logger.info("/board/view - boardfile : {}", boardFile);
 		
-		model.addAttribute("board", board);
 		//현재 로그인 중인 유저아이디로 변환. 이전까지는 게시글 작성자 userid
-		board.setUserid((String)session.getAttribute("userid"));
-		boolean isRecommended = boardService.isRecommended(board);
+		Board viewBoard = new Board();
+		viewBoard.setBoardno(boardno);
+		viewBoard.setUserid((String)session.getAttribute("userid"));
+		boolean isRecommended = boardService.isRecommended(viewBoard);
 		logger.info("/board/view - recommended : {}", isRecommended);
 		
 		//추천수 조회하여 반환
@@ -83,6 +84,7 @@ public class BoardController {
 		List<Comment> commentList = boardService.commentList(board);
 		logger.info("/board/view - commentList : {}", commentList);
 		
+		model.addAttribute("board", board);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("boardFile", boardFile);
 		model.addAttribute("recommended", isRecommended);
@@ -102,7 +104,7 @@ public class BoardController {
 	public String writeProc(
 			
 			Board board
-			, MultipartFile upfile
+			, List<MultipartFile> upfile
 			, HttpSession session
 			
 			) {
@@ -115,6 +117,22 @@ public class BoardController {
 		
 		return "redirect: /board/list";
 		
+	}
+	
+	@RequestMapping("/download")
+	public String download(
+			
+			int fileno
+			, Model model
+			
+			) {
+		
+		BoardFile downFile = boardService.getDownloadFile(fileno);
+		
+		logger.info("downFile : {}", downFile);
+		model.addAttribute("downFile", downFile);
+		
+		return "down";
 	}
 	
 }
